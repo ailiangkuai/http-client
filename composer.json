@@ -17,7 +17,7 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "Ym\\http\\request": "src/"
+      "Ym\\http\\request\\": "src/"
     }
   }
 }
