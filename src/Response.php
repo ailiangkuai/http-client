@@ -23,9 +23,11 @@ class Response
 {
     use TraitXml;
     use TraitJson;
+    /* @var \GuzzleHttp\Psr7\Response $_response*/
     private $_response;
     private $_format;
     private $_decodeData;
+    /* @var string $_data*/
     private $_data;
 
     public function __construct(\GuzzleHttp\Psr7\Response $response, $format)
@@ -92,16 +94,16 @@ class Response
     }
 
     /**
-     * @param bool $assoc returned objects will be converted into associative arrays.
+     * @param bool $asArray false returned objects will be converted into associative arrays.
      * @return array
      * @author yaoyongfeng
      */
-    public function getJsonData($assoc = false)
+    public function getJsonData($asArray = true)
     {
         if ($this->getData() === null || $this->getData() === '') {
             return null;
         }
-        $this->_decodeData = self::jsonDecode($this->getData(), $assoc);
+        $this->_decodeData = self::jsonDecode($this->getData(), $asArray);
         return $this->_decodeData;
     }
 
