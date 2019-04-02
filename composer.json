@@ -1,0 +1,23 @@
+{
+  "name": "yamei/http-client",
+  "description": "http客户端请求",
+  "type": "library",
+  "require": {
+    "php": "^7.1",
+    "guzzlehttp/guzzle": "~6.2.0",
+    "apache/log4php": "~2.3"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "yaoyongfeng",
+      "email": "yaoyongfeng@ecpark.cn"
+    }
+  ],
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "Ym\\http\\request": "src/"
+    }
+  }
+}
