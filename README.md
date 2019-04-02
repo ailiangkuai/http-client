@@ -45,12 +45,12 @@ $response = HttpClient::post('http://www.test.com' . '/server/test/index')
 <?php 
 use Ym\http\request\HttpClient;
 /*
- * 请求的url:http://www.test.com/server/test/index?a=1
+ * 请求的url:http://www.test.com/server/test/xml?a=1
  * 请求方法:get
  * 返回array
  * */
-$response = HttpClient::get('http://www.test.com' . '/server/test/index')
+$response = HttpClient::get('http://www.test.com' . '/server/test/xml')
 ->setQuery(['a' => 1])  //设置url后面加到参数
-->send()->getJsonData();
+->send()->getXmlData();
 
 ```
