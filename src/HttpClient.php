@@ -328,7 +328,7 @@ class HttpClient
 
     /**
      * @return Response
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Exception
      * @author yaoyongfeng
      */
     public function send()
@@ -351,7 +351,7 @@ class HttpClient
             //开发模式也可以写入日志请求参数和结果
         } catch (\GuzzleHttp\Exception\GuzzleException $exception) {
             //todo 写入日志 'http client error:' . $exception->getMessage()
-            throw $exception;
+            throw new \Exception('\GuzzleHttp\Exception\GuzzleException:' . $exception->getMessage());
         }
         return new Response($request, $this->_format);
     }
