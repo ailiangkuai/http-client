@@ -1,6 +1,7 @@
 http请求工具,用于请求http接口的php库，基于guzzlehttp/guzzle,guzzlehttp/guzzle库虽然
 功能强大，但是写的时候总是会忘记如何设置参数，http-client支持连贯书写设置http请求参数
-,支持自动解析json字符串和xml字符串
+,支持自动解析json字符串和xml字符串,目前使用的guzzlehttp/guzzle版本是6.2.*,在php7上
+运行会有count(null)的bug,我们用的shopex版本也用了guzzlehttp/guzzle后续会调整版本
 ####安装
 1.在项目中的composer.json中添加亚美仓库源
 ```json
