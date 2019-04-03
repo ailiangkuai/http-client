@@ -10,13 +10,10 @@
 namespace Ym\http\request\exceptions;
 
 
-class NotSupportedException extends Exception
+class Exception extends \Exception
 {
-    /**
-     * @return string the user-friendly name of this exception
-     */
     public function getName()
     {
-        return 'Not Supported';
+        return 'Exception';
     }
 }

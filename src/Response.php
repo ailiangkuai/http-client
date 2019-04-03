@@ -11,6 +11,7 @@
 namespace Ym\http\request;
 
 
+use Ym\http\request\exceptions\InvalidArgumentException;
 use Ym\http\request\traits\TraitJson;
 use Ym\http\request\traits\TraitXml;
 
@@ -59,9 +60,12 @@ class Response
         return $this->_response->getHeaders();
     }
 
+
     /**
      * 返回解码格式请求是xml,json返回数组
-     * @return array|mixed|string
+     * @param null $format
+     * @return array|mixed|string|null
+     * @throws InvalidArgumentException
      * @author yaoyongfeng
      */
     public function getDecodeData($format = null)
@@ -96,6 +100,7 @@ class Response
     /**
      * @param bool $asArray false returned objects will be converted into associative arrays.
      * @return array
+     * @throws InvalidArgumentException
      * @author yaoyongfeng
      */
     public function getJsonData($asArray = true)

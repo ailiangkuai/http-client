@@ -12,7 +12,7 @@ namespace Ym\http\request\exceptions;
 
 
 
-class InvalidArgumentException extends \InvalidArgumentException
+class InvalidArgumentException extends Exception
 {
     /**
      * @return string the user-friendly name of this exception

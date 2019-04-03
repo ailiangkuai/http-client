@@ -13,6 +13,7 @@ namespace Ym\http\request;
 
 use Psr\Http\Message\StreamInterface;
 use \GuzzleHttp\RequestOptions;
+use Ym\http\request\exceptions\Exception;
 use Ym\http\request\exceptions\InvalidArgumentException;
 use Ym\http\request\exceptions\NotSupportedException;
 
@@ -135,6 +136,7 @@ class HttpClient
     /**
      * @param string $url 不能带querystring参数
      * @return self
+     * @throws InvalidArgumentException
      * @author yaoyongfeng
      */
     public static function get($url)
@@ -145,6 +147,7 @@ class HttpClient
     /**
      * @param string $url 不能带querystring参数
      * @return self
+     * @throws InvalidArgumentException
      * @author yaoyongfeng
      */
     public static function post($url)
@@ -169,6 +172,7 @@ class HttpClient
      *
      * @param string $baseUri 不能带querystring参数
      * @return $this
+     * @throws InvalidArgumentException
      * @author yaoyongfeng
      */
     public function setBaseUri($baseUri)
@@ -185,6 +189,11 @@ class HttpClient
     }
 
 
+    /**
+     * @return null
+     * @throws InvalidArgumentException
+     * @author yaoyongfeng
+     */
     public function getBaseUri()
     {
         if (empty($this->_url)) {
@@ -253,6 +262,7 @@ class HttpClient
      * @param array $formData
      * @return $this
      * @throws NotSupportedException
+     * @throws InvalidArgumentException
      * @author yaoyongfeng
      */
     public function setFormData(array $formData)
@@ -276,6 +286,7 @@ class HttpClient
      * @param $body
      * @return $this
      * @throws NotSupportedException
+     * @throws InvalidArgumentException
      * @author yaoyongfeng
      */
     public function setBody($body)
@@ -328,7 +339,8 @@ class HttpClient
 
     /**
      * @return Response
-     * @throws \Exception
+     * @throws Exception
+     * @throws InvalidArgumentException
      * @author yaoyongfeng
      */
     public function send()
@@ -351,7 +363,7 @@ class HttpClient
             //开发模式也可以写入日志请求参数和结果
         } catch (\GuzzleHttp\Exception\GuzzleException $exception) {
             //todo 写入日志 'http client error:' . $exception->getMessage()
-            throw new \Exception('\GuzzleHttp\Exception\GuzzleException:' . $exception->getMessage());
+            throw new Exception('\GuzzleHttp\Exception\GuzzleException:' . $exception->getMessage());
         }
         return new Response($request, $this->_format);
     }
