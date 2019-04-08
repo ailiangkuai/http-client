@@ -11,11 +11,13 @@
 namespace Ym\http\request;
 
 
+use Monolog\Logger;
 use Psr\Http\Message\StreamInterface;
 use \GuzzleHttp\RequestOptions;
 use Ym\http\request\exceptions\Exception;
 use Ym\http\request\exceptions\InvalidArgumentException;
 use Ym\http\request\exceptions\NotSupportedException;
+use Monolog\Registry;
 
 /**
  *
@@ -121,6 +123,21 @@ class HttpClient
         'User-Agent' => 'Mozilla/5.0 YN7725 RequestClient(compatible; MSIE 5.01; Windows NT 5.0)',
     ];
     private $_charset = 'UTF-8';
+
+    /* @var Logger $logger */
+    private $logger;
+
+    /**
+     * HttpClient constructor.
+     */
+    public function __construct()
+    {
+        try {
+            $this->setLogger(Registry::getInstance(get_class()));
+        } catch (\Exception $exception) {
+//            throw new InvalidArgumentException($exception->getMessage());
+        }
+    }
 
 
     /**
@@ -336,6 +353,23 @@ class HttpClient
         return $this->_formData;
     }
 
+    /**
+     * @return Logger
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function setLogger(Logger $logger)
+    {
+        $this->logger = $logger;
+        return $this;
+    }
+
 
     /**
      * @return Response
@@ -359,10 +393,20 @@ class HttpClient
             !is_null($this->getFormData()) && $config[RequestOptions::FORM_PARAMS] = $this->getFormData();
         }
         try {
+            $this->getLogger() && $this->getLogger()->addInfo('http client request before', [
+                'url'     => $this->getBaseUri(),
+                'method'  => $this->_method,
+                'config'  => $config
+            ]);
             $request = $client->request($this->_method, $this->getBaseUri(), $config);
             //开发模式也可以写入日志请求参数和结果
         } catch (\GuzzleHttp\Exception\GuzzleException $exception) {
-            //todo 写入日志 'http client error:' . $exception->getMessage()
+            $this->getLogger() && $this->getLogger()->addError('http client request exception', [
+                'message' => $exception->getMessage(),
+                'url'     => $this->getBaseUri(),
+                'method'  => $this->_method,
+                'config'  => $config
+            ]);
             throw new Exception('\GuzzleHttp\Exception\GuzzleException:' . $exception->getMessage());
         }
         return new Response($request, $this->_format);
