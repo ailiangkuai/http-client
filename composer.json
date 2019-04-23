@@ -2,10 +2,10 @@
   "name": "yamei/http-client",
   "description": "http客户端请求",
   "type": "library",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "require": {
     "php": "^7.1",
-    "guzzlehttp/guzzle": "~6.2.0",
+    "guzzlehttp/guzzle": "~6.2.0|~6.3.0",
     "monolog/monolog": "~1.11",
     "ext-json": "*",
     "ext-dom": "*",
