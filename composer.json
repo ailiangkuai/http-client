@@ -2,7 +2,7 @@
   "name": "yamei/http-client",
   "description": "http客户端请求",
   "type": "library",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "require": {
     "php": "^7.1",
     "guzzlehttp/guzzle": "~6.2.0|~6.3.0",
