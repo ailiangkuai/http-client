@@ -392,13 +392,11 @@ class HttpClient
             !is_null($this->getBody()) && $config[RequestOptions::BODY] = $this->getBody();
             !is_null($this->getFormData()) && $config[RequestOptions::FORM_PARAMS] = $this->getFormData();
         }
+        $requestBeforeTime = microtime();
         try {
-            $this->getLogger() && $this->getLogger()->addInfo('http client request before', [
-                'url'     => $this->getBaseUri(),
-                'method'  => $this->_method,
-                'config'  => $config
-            ]);
+            
             $request = $client->request($this->_method, $this->getBaseUri(), $config);
+
             //开发模式也可以写入日志请求参数和结果
         } catch (\GuzzleHttp\Exception\GuzzleException $exception) {
             $this->getLogger() && $this->getLogger()->addError('http client request exception', [
@@ -408,6 +406,14 @@ class HttpClient
                 'config'  => $config
             ]);
             throw new Exception('\GuzzleHttp\Exception\GuzzleException:' . $exception->getMessage());
+        } finally {
+            $requestAfterTime = microtime();
+            $this->getLogger() && $this->getLogger()->addInfo('http client request after', [
+                'url'          => $this->getBaseUri(),
+                'method'       => $this->_method,
+                'config'       => $config,
+                'request_time' => $requestAfterTime - $requestBeforeTime,
+            ]);
         }
         return new Response($request, $this->_format);
     }
